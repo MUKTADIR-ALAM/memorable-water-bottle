@@ -11,17 +11,32 @@ export default function Bottles() {
       .then((data) => setBottles(data));
   }, []);
 
+  useEffect(() => {
+    if (bottles) {
+      const lsCartId = getStoredData();
+      const lsCart = [];
+      for (const id of lsCartId) {
+        lsCart.push(bottles.find((bottle) => bottle.id === id));
+      }
+      setCart(lsCart);
+    }
+  }, [bottles]);
 
   const handleAddToCart = (bottle) => {
     setCart([...cart, bottle]);
     saveToLA(bottle.id);
   };
-  // console.log(cart);
+  console.log(cart);
   // console.log(bottles);
   return (
     <div>
       <h3>Bottles here: {bottles.length}</h3>
       <h4>cart:{getStoredData().length}</h4>
+<div className="cart-container">
+  {
+    cart.map((cart)=><img src={cart.img}></img>)
+  }
+</div>
       <div className="bottles-container">
         {bottles.map((bottle) => (
           <Bottle
